@@ -19,7 +19,12 @@ namespace ASP.Extensions
             globalVariable = parameter;
             return true;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T">Generic Type</typeparam>
+        /// <param name="objects">Array</param>
+        /// <returns>true if array objects is null or empty</returns>
         public static bool IsNullOrEmpty<T>(this T[] objects)
         {
             bool isNull = true;

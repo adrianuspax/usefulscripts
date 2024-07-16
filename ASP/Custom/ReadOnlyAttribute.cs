@@ -2,9 +2,6 @@ using UnityEngine;
 
 namespace ASP
 {
-    public class ReadOnlyAttribute : PropertyAttribute
-    {
-
-    }
+    public class ReadOnlyAttribute : PropertyAttribute { }
 }
 

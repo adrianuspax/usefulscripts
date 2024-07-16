@@ -5,7 +5,7 @@ using System.Reflection;
 namespace ASP.Editor
 {
     /// <summary>
-    /// 
+    /// Assignment Components Reflection to create Buttons in Inspector
     /// </summary>
     public class AssignmentComponentsReflection : MonoBehaviour
     {

@@ -41,41 +41,19 @@ namespace ASP
             y = (a * x2) + (b * x) + c;
             return y;
         }
-
-        public static float Normalization(float x, float A, float B)
+        /// <summary>
+        /// Normalization between two values
+        /// </summary>
+        /// <param name="value">Value to be normalized</param>
+        /// <param name="min">Minimum limiting value</param>
+        /// <param name="max">Maximum limiting value</param>
+        /// <returns>Returns a value between 0 and 1</returns>
+        public static float Normalization(float value, float min, float max)
         {
-            float a, b;
-            a = 1f / (B - A);
-            b = 1f / (B - A) * A;
-            return (a * x) - b;
-        }
-
-        public static float ContinuosNormal(float speed)
-        {
-            float t;
-            t = Time.fixedTime;
-            return ((speed * t) % 1);
-        }
-
-        public static float PendularNormal(float frequence)
-        {
-            (float x, float y) A;
-            (float x, float y) B;
-            float x, a, b, y, t, c;
-            float radianization, sin, rangeValue;
-
-            t = Time.fixedTime;
-            c = (frequence * t) % 1;
-            A = (0f, 0f);
-            B = (1f, Mathf.PI);
-            a = (B.y - A.y) / (B.x - A.x);
-            b = A.y - (((B.y - A.y) / (B.x - A.x)) * A.x);
-            rangeValue = c;
-            x = rangeValue;
-            y = (a * x) - b;
-            radianization = y;
-            sin = Mathf.Sin(radianization);
-            return sin;
+            value = Mathf.Clamp(value, min, max);
+            float a = 1f / (max - min);
+            float b = 1f / (max - min) * min;
+            return (a * value) - b;
         }
     }
 }
