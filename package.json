@@ -13,7 +13,14 @@
     "name": "Adriano Sampaio Paz",
     "email": "contato@adrianopaz.com",
     "url": "https://github.com/adrianuspax"
-  },    
+  },
+  "samples": [
+    {
+      "displayName": "Vapor Palette Colors",
+      "description": "Vapor color palette based on Adobe Colors",
+      "path": "ASP/Samples~/VaporPaletteColors/"
+    }
+  ], 
     "keywords": [
       "unity",
       "scripts",
