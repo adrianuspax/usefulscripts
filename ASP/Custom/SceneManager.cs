@@ -3,53 +3,53 @@ using System;
 namespace ASP.SceneManagement
 {
     /// <summary>
-    /// Struct that stores the scene name
-    /// </summary>
-    [Serializable]
-    public struct Scene
-    {
-        /// <summary>
-        /// Scene name
-        /// </summary>
-        public string name;
-        /// <summary>
-        /// Construct that assigns the scene name
-        /// </summary>
-        /// <param name="name">Name of the scene to be assigned</param>
-        public Scene(string name)
-        {
-            this.name = name;
-        }
-
-        public static bool operator ==(Scene sceneA, Scene sceneB)
-        {
-            return sceneA.Equals(sceneB);
-        }
-
-        public static bool operator !=(Scene sceneA, Scene sceneB)
-        {
-            return !sceneA.Equals(sceneB);
-        }
-
-        public override readonly bool Equals(object obj)
-        {
-            if (obj is not Scene)
-                return false;
-
-            Scene s = (Scene)obj;
-            return name == s.name;
-        }
-
-        public override readonly int GetHashCode()
-        {
-            return name == null ? 0 : name.GetHashCode();
-        }
-    }
-    /// <summary>
     /// Class that manages the scenes
     /// </summary>
     public class SceneManager
     {
+        /// <summary>
+        /// Struct that stores the scene name
+        /// </summary>
+        [Serializable]
+        public struct Scene
+        {
+            /// <summary>
+            /// Scene name
+            /// </summary>
+            public string name;
+            /// <summary>
+            /// Construct that assigns the scene name
+            /// </summary>
+            /// <param name="name">Name of the scene to be assigned</param>
+            public Scene(string name)
+            {
+                this.name = name;
+            }
+
+            public static bool operator ==(Scene sceneA, Scene sceneB)
+            {
+                return sceneA.Equals(sceneB);
+            }
+
+            public static bool operator !=(Scene sceneA, Scene sceneB)
+            {
+                return !sceneA.Equals(sceneB);
+            }
+
+            public override readonly bool Equals(object obj)
+            {
+                if (obj is not Scene)
+                    return false;
+
+                Scene s = (Scene)obj;
+                return name == s.name;
+            }
+
+            public override readonly int GetHashCode()
+            {
+                return name == null ? 0 : name.GetHashCode();
+            }
+        }
         /// <summary>
         /// Load the scene
         /// </summary>
