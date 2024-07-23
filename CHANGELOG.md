@@ -3,4 +3,5 @@
 1.0.2 Add Class Header
 1.0.3 Add Class SceneManager
 1.0.4 Add operators into Scene
-1.1.0 Scene into SceneManager
+1.1.0 Scene struct into SceneManager
+1.1.1 Add operator implicit into PlayerPrefs

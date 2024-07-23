@@ -64,6 +64,21 @@ namespace ASP
             {
                 UnityEngine.PlayerPrefs.DeleteKey(key.name);
             }
+
+            public static implicit operator Integer(Floater f)
+            {
+                return new(f.name);
+            }
+
+            public static implicit operator Integer(String s)
+            {
+                return new(s.name);
+            }
+
+            public static implicit operator Integer(Boolean b)
+            {
+                return new(b.name);
+            }
         }
         /// <summary>
         /// Struct to manipulate <see cref="UnityEngine.PlayerPrefs"/> whose key is an floater.
@@ -130,6 +145,21 @@ namespace ASP
 
                 Debug.LogWarning($"\"{key.name}\" is no save recorded on your machine!", default);
             }
+
+            public static implicit operator Floater(Integer i)
+            {
+                return new(i.name);
+            }
+
+            public static implicit operator Floater(String s)
+            {
+                return new(s.name);
+            }
+
+            public static implicit operator Floater(Boolean b)
+            {
+                return new(b.name);
+            }
         }
         /// <summary>
         /// Struct to manipulate <see cref="UnityEngine.PlayerPrefs"/> whose key is an string.
@@ -189,6 +219,21 @@ namespace ASP
             {
                 UnityEngine.PlayerPrefs.DeleteKey(key.name);
             }
+
+            public static implicit operator String(Integer i)
+            {
+                return new(i.name);
+            }
+
+            public static implicit operator String(Floater f)
+            {
+                return new(f.name);
+            }
+
+            public static implicit operator String(Boolean b)
+            {
+                return new(b.name);
+            }
         }
         /// <summary>
         /// Struct to manipulate <see cref="UnityEngine.PlayerPrefs"/> whose key is an boolean.
@@ -247,6 +292,21 @@ namespace ASP
             public static void Delete(Boolean key)
             {
                 UnityEngine.PlayerPrefs.DeleteKey(key.name);
+            }
+
+            public static implicit operator Boolean(Integer i)
+            {
+                return new(i.name);
+            }
+
+            public static implicit operator Boolean(Floater f)
+            {
+                return new(f.name);
+            }
+
+            public static implicit operator Boolean(String s)
+            {
+                return new(s.name);
             }
         }
     }
