@@ -5,32 +5,20 @@ namespace ASP.Extensions
 {
     public static class CanvasGroupExtensions
     {
-        private static Coroutine pingPongCoroutine;
+        private static readonly Coroutine[] coroutine = new Coroutine[8];
+        private static readonly float[] values = new float[2];
         /// <summary>
         /// Set alpha in Canvas Group
         /// </summary>
-        /// <param name="canvasGroup">Canvas Group</param>
+        /// <param name="canvasGroups">Canvas Group</param>
         /// <param name="alpha">Panel Fade in a range from 0 to 1</param>
-        public static void SetAlpha(this CanvasGroup canvasGroup, float alpha)
-        {
-            if (canvasGroup.alpha == alpha)
-                return;
-
-            alpha = Mathf.Clamp01(alpha);
-            canvasGroup.alpha = alpha;
-        }
-        /// <summary>
-        /// Set alpha in Canvas Group Array
-        /// </summary>
-        /// <param name="canvasGroup">Canvas Group Array</param>
-        /// <param name="alpha">Panel Fade in a range from 0 to 1</param>
-        public static void SetAlpha(this CanvasGroup[] canvasGroup, float alpha)
+        public static void SetAlpha(this CanvasGroup[] canvasGroups, float alpha)
         {
             alpha = Mathf.Clamp01(alpha);
 
-            foreach (CanvasGroup cg in canvasGroup)
+            foreach (CanvasGroup canvasGroup in canvasGroups)
             {
-                cg.alpha = alpha;
+                canvasGroup.alpha = alpha;
             }
         }
         /// <summary>
@@ -41,7 +29,11 @@ namespace ASP.Extensions
         /// <param name="monoBehaviour">Mono Behaviour to Coroutine (use this)</param>
         public static void FadeIn(this CanvasGroup canvasGroup, float totalTime, MonoBehaviour monoBehaviour)
         {
-            monoBehaviour.StartCoroutine(_fadeIn());
+            if (coroutine[0] == null)
+            {
+                values[0] = canvasGroup.alpha;
+                coroutine[0] = monoBehaviour.StartCoroutine(_fadeIn());
+            }
 
             IEnumerator _fadeIn()
             {
@@ -54,23 +46,55 @@ namespace ASP.Extensions
                     t = runningTime / totalTime;
 
                     alpha = Mathf.Lerp(0f, 1f, t);
-
-                    SetAlpha(canvasGroup, alpha);
+                    canvasGroup.alpha = alpha;
                     yield return null;
                 }
 
-                SetAlpha(canvasGroup, 1f);
+                canvasGroup.alpha = values[0];
+                coroutine[0] = null;
             }
         }
         /// <summary>
         /// Fade in of the panel and all its graphic elements
         /// </summary>
-        /// <param name="canvasGroup">Canvas Group Array</param>
+        /// <param name="canvasGroup">Canvas Group</param>
+        /// <param name="totalTime">Total time animation</param>
+        /// <param name="alpha">Alpha target</param>
+        /// <param name="monoBehaviour">Mono Behaviour to Coroutine (use this)</param>
+        public static void FadeIn(this CanvasGroup canvasGroup, float totalTime, float alpha, MonoBehaviour monoBehaviour)
+        {
+            coroutine[1] ??= monoBehaviour.StartCoroutine(_fadeIn());
+
+            IEnumerator _fadeIn()
+            {
+                float runningTime, t, runningAlpha;
+
+                runningTime = 0f;
+                alpha = Mathf.Clamp01(alpha);
+
+                while (runningTime < totalTime)
+                {
+                    runningTime += Time.deltaTime;
+                    t = runningTime / totalTime;
+
+                    runningAlpha = Mathf.Lerp(0f, alpha, t);
+                    canvasGroup.alpha = runningAlpha;
+                    yield return null;
+                }
+
+                canvasGroup.alpha = alpha;
+                coroutine[1] = null;
+            }
+        }
+        /// <summary>
+        /// Fade in of the panel and all its graphic elements
+        /// </summary>
+        /// <param name="canvasGroups">Canvas Group Array</param>
         /// <param name="totalTime">Total time animation</param>
         /// <param name="monoBehaviour">Mono Behaviour to Coroutine (use this)</param>
-        public static void FadeIn(this CanvasGroup[] canvasGroup, float totalTime, MonoBehaviour monoBehaviour)
+        public static void FadeIn(this CanvasGroup[] canvasGroups, float totalTime, MonoBehaviour monoBehaviour)
         {
-            monoBehaviour.StartCoroutine(_fadeIn());
+            coroutine[2] ??= monoBehaviour.StartCoroutine(_fadeIn());
 
             IEnumerator _fadeIn()
             {
@@ -83,19 +107,44 @@ namespace ASP.Extensions
                     t = runningTime / totalTime;
 
                     alpha = Mathf.Lerp(0f, 1f, t);
-
-                    foreach (CanvasGroup group in canvasGroup)
-                    {
-                        SetAlpha(group, alpha);
-                    }
-
+                    canvasGroups.SetAlpha(alpha);
                     yield return null;
                 }
 
-                foreach (CanvasGroup group in canvasGroup)
+                canvasGroups.SetAlpha(1f);
+                coroutine[2] = null;
+            }
+        }
+        /// <summary>
+        /// Fade in of the panel and all its graphic elements
+        /// </summary>
+        /// <param name="canvasGroups">Canvas Group Array</param>
+        /// <param name="totalTime">Total time animation</param>
+        /// /// <param name="alpha">Alpha target</param>
+        /// <param name="monoBehaviour">Mono Behaviour to Coroutine (use this)</param>
+        public static void FadeIn(this CanvasGroup[] canvasGroups, float totalTime, float alpha, MonoBehaviour monoBehaviour)
+        {
+            coroutine[3] ??= monoBehaviour.StartCoroutine(_fadeIn());
+
+            IEnumerator _fadeIn()
+            {
+                float runningTime, t, runningAlpha;
+
+                runningTime = 0f;
+                alpha = Mathf.Clamp01(alpha);
+
+                while (runningTime < totalTime)
                 {
-                    SetAlpha(group, 1f);
+                    runningTime += Time.deltaTime;
+                    t = runningTime / totalTime;
+
+                    runningAlpha = Mathf.Lerp(0f, alpha, t);
+                    canvasGroups.SetAlpha(runningAlpha);
+                    yield return null;
                 }
+
+                canvasGroups.SetAlpha(alpha);
+                coroutine[3] = null;
             }
         }
         /// <summary>
@@ -106,7 +155,7 @@ namespace ASP.Extensions
         /// <param name="monoBehaviour">Mono Behaviour to Coroutine (use this)</param>
         public static void FadeOut(this CanvasGroup canvasGroup, float totalTime, MonoBehaviour monoBehaviour)
         {
-            monoBehaviour.StartCoroutine(_fadeOut());
+            coroutine[4] ??= monoBehaviour.StartCoroutine(_fadeOut());
 
             IEnumerator _fadeOut()
             {
@@ -121,22 +170,23 @@ namespace ASP.Extensions
 
                     alpha = Mathf.Lerp(previousAlpha, 0f, t);
 
-                    SetAlpha(canvasGroup, alpha);
+                    canvasGroup.alpha = alpha;
                     yield return null;
                 }
 
-                SetAlpha(canvasGroup, 0f);
+                canvasGroup.alpha = 0f;
+                coroutine[4] = null;
             }
         }
         /// <summary>
         /// Fade out of the panel and all its graphic elements
         /// </summary>
-        /// <param name="canvasGroup">Canvas Group Array</param>
+        /// <param name="canvasGroups">Canvas Group Array</param>
         /// <param name="totalTime">Total time animation</param>
         /// <param name="monoBehaviour">Mono Behaviour to Coroutine (use this)</param>
-        public static void FadeOut(this CanvasGroup[] canvasGroup, float totalTime, MonoBehaviour monoBehaviour)
+        public static void FadeOut(this CanvasGroup[] canvasGroups, float totalTime, MonoBehaviour monoBehaviour)
         {
-            monoBehaviour.StartCoroutine(_fadeOut());
+            coroutine[5] ??= monoBehaviour.StartCoroutine(_fadeOut());
 
             IEnumerator _fadeOut()
             {
@@ -150,19 +200,12 @@ namespace ASP.Extensions
                     t = runningTime / totalTime;
 
                     alpha = Mathf.Lerp(previousAlpha, 0f, t);
-
-                    foreach (CanvasGroup group in canvasGroup)
-                    {
-                        SetAlpha(group, alpha);
-                    }
-
+                    canvasGroups.SetAlpha(alpha);
                     yield return null;
                 }
 
-                foreach (CanvasGroup group in canvasGroup)
-                {
-                    SetAlpha(group, 0f);
-                }
+                canvasGroups.SetAlpha(0f);
+                coroutine[5] = null;
             }
         }
         /// <summary>
@@ -173,20 +216,22 @@ namespace ASP.Extensions
         /// <param name="monoBehaviour">Mono Behaviour to Coroutine (use this)</param>
         public static void StartAlphaPingPong(this CanvasGroup canvasGroup, float frequence, MonoBehaviour monoBehaviour)
         {
-            pingPongCoroutine = monoBehaviour.StartCoroutine(AlphaPingPong(canvasGroup, frequence));
+            if (coroutine[6] == null)
+            {
+                values[1] = canvasGroup.alpha;
+                coroutine[6] = monoBehaviour.StartCoroutine(AlphaPingPong(canvasGroup, frequence));
+            }
         }
         /// <summary>
         /// Stop Ping Pong Alpha
         /// </summary>
         /// <param name="canvasGroup">Canvas Group</param>
-        /// <param name="returnAlpha">Return the alpha to Canvas Group</param>
         /// <param name="monoBehaviour">Mono Behaviour to Coroutine (use this)</param>
-        public static void StopAlphaPingPong(this CanvasGroup canvasGroup, float returnAlpha, MonoBehaviour monoBehaviour)
+        public static void StopAlphaPingPong(this CanvasGroup canvasGroup, MonoBehaviour monoBehaviour)
         {
-            pingPongCoroutine = null;
+            coroutine[6] = null;
             monoBehaviour.StopCoroutine(nameof(AlphaPingPong));
-            returnAlpha = Mathf.Clamp01(returnAlpha);
-            canvasGroup.alpha = returnAlpha;
+            canvasGroup.alpha = values[1];
         }
 
         private static IEnumerator AlphaPingPong(CanvasGroup canvasGroup, float frequence)
@@ -199,8 +244,8 @@ namespace ASP.Extensions
                 canvasGroup.alpha = Mathf.PingPong(t * frequence, 1f);
                 yield return null;
             }
-            while (pingPongCoroutine != null);
-            pingPongCoroutine = null;
+            while (coroutine[6] != null);
+            coroutine[6] = null;
         }
     }
 }

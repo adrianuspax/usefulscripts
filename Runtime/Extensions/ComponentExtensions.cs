@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 
 namespace ASP.Extensions
@@ -6,102 +7,38 @@ namespace ASP.Extensions
     public static class ComponentExtensions
     {
         /// <summary>
-        /// Assign a component of an object that has it from the object that calls this function
-        /// </summary>
-        /// <typeparam name="T">Type of component</typeparam>
-        /// <param name="component">Component of the object calling this function</param>
-        /// <param name="variable">Enter the variable that will receive the component</param>
-        [Obsolete("Use GetComponentIfNull().")]
-        public static void GetComponentFrom<T>(this Component component, out T variable) where T : Component
-        {
-            variable = component.GetComponent<T>();
-        }
-        /// <summary>
-        /// Assign a component of an object that has it from the object that calls this function
-        /// </summary>
-        /// <typeparam name="T">Type of component</typeparam>
-        /// <param name="component">Component of the object calling this function</param>
-        /// <param name="variable">Enter the variable that will receive the component</param>
-        /// <param name="chieldIndex">The index of the child that will assign the component. To take children from children, separate the hierarchy with commas</param>
-        [Obsolete("Use GetComponentIfNull().")]
-        public static void GetComponentFrom<T>(this Component component, out T variable, params int[] chieldIndex) where T : Component
-        {
-            Transform transform = component.transform.GetChild(chieldIndex[0]);
-
-            for (int i = 1; i < chieldIndex.Length; i++)
-            {
-                transform = transform.GetChild(chieldIndex[i]);
-            }
-
-            variable = transform.GetComponent<T>();
-        }
-        /// <summary>
-        /// Assign a component of an object that has it from the child of object that calls this function
-        /// </summary>
-        /// <typeparam name="T">Type of component</typeparam>
-        /// <param name="component">Component of the object calling this function</param>
-        /// <param name="variable">Enter the variable that will receive the component</param>
-        /// <param name="childrenIndex">The index of the children that will assign the component. To take children from children, separate the hierarchy with commas</param>
-        [Obsolete("Use GetComponentInChildrenIfNull().")]
-        public static void GetComponentInChildrenFrom<T>(this Component component, out T variable, params int[] childrenIndex) where T : Component
-        {
-            Transform transform = component.transform.GetChild(childrenIndex[0]);
-
-            for (int i = 1; i < childrenIndex.Length; i++)
-            {
-                transform = transform.GetChild(childrenIndex[i]);
-            }
-
-            variable = transform.GetComponentInChildren<T>();
-        }
-        /// <summary>
-        /// Assign a component of an object that has it from the child of object that calls this function
-        /// </summary>
-        /// <typeparam name="T">Type of component</typeparam>
-        /// <param name="component">Component of the object calling this function</param>
-        /// <param name="array">Enter the array variable that will receive the component</param>
-        [Obsolete("Use GetComponentsInChildrenHeadersIfNull.")]
-        public static void GetComponentsInChildrenFrom<T>(this Component component, out T[] array) where T : Component
-        {
-            array = new T[component.transform.childCount];
-
-            for (int i = 0; i < array.Length; i++)
-            {
-                array[i] = component.transform.GetChild(i).GetComponentInChildren<T>();
-            }
-        }
-        /// <summary>
-        /// Assign a component of an object that has it from the child of object that calls this function
-        /// </summary>
-        /// <typeparam name="T">Type of component</typeparam>
-        /// <param name="component">Component of the object calling this function</param>
-        /// <param name="array">Enter the array variable that will receive the component</param>
-        /// <param name="chieldIndex">The index of the children that will assign the component. To take children from children, separate the hierarchy with commas</param>
-        [Obsolete("Use GetComponentsInChildrenHeadersIfNull.")]
-        public static void GetComponentsInChildrenFrom<T>(this Component component, out T[] array, params int[] chieldIndex) where T : Component
-        {
-            Transform header = component.transform.GetChild(chieldIndex[0]);
-
-            for (int i = 1; i < chieldIndex.Length; i++)
-            {
-                header = header.GetChild(chieldIndex[i]);
-            }
-
-            array = new T[header.childCount];
-
-            for (int i = 0; i < array.Length; i++)
-            {
-                array[i] = header.GetChild(i).GetComponentInChildren<T>();
-            }
-        }
-        /// <summary>
         /// Checks if a component is null
         /// </summary>
         /// <param name="component">component</param>
         /// <returns>true if the component is null</returns>
-        public static bool IsNull(this Component component)
+        public static bool IsNull<T>(this T component) where T : Component
         {
             return component == null;
+        }
+        /// <summary>
+        /// Checks if all the elements in the array are null or if the array is empty
+        /// </summary>
+        /// <typeparam name="T">Generic Type (where T : Component)</typeparam>
+        /// <param name="components">Generic Type Array</param>
+        /// <returns>true if array components is null or empty</returns>
+        public static bool IsNullOrEmpty<T>(this T[] components) where T : Component
+        {
+            return components.All(obj => obj == null);
+        }
+        /// <summary>
+        /// Compares elements of the same type and assigns the value of the parameter to the variable if the values are not equal.
+        /// </summary>
+        /// <typeparam name="T">Type of parameter and variable</typeparam>
+        /// <param name="parameter">The parameter that will be compared</param>
+        /// <param name="globalVariable">The variable that will be compared and then assigned if the values are not equal.</param>
+        /// <returns>"attributed" returns the value assigned to the variable and "wasAttributed" returns true if the assignment to the variable occurred.</returns>
+        public static bool ComparativeAssignment<T>(this T parameter, ref T globalVariable) where T : Component
+        {
+            if (parameter == globalVariable)
+                return false;
+
+            globalVariable = parameter;
+            return true;
         }
         /// <summary>
         /// Assign a component of an object that has it from the object that calls this function
@@ -113,11 +50,11 @@ namespace ASP.Extensions
         /// <returns>Returns true if the component is assigned, i.e. it was null</returns>
         public static bool GetComponentIfNull<T>(this Component component, ref T variable, params int[] childrenIndexes) where T : Component
         {
-            if (variable == null)
+            if (variable.IsNull())
             {
                 Transform transform = component.transform;
 
-                if (childrenIndexes == null || childrenIndexes.Length == 0)
+                if (childrenIndexes.IsEmpty())
                 {
                     variable = transform.GetComponent<T>();
                     return true;
@@ -144,11 +81,11 @@ namespace ASP.Extensions
         /// <returns>Returns true if the component is assigned, i.e. it was null</returns>
         public static bool GetComponentInChildrenIfNull<T>(this Component component, ref T variable, params int[] childrenIndexes) where T : Component
         {
-            if (variable == null)
+            if (variable.IsNull())
             {
                 Transform transform = component.transform;
 
-                if (childrenIndexes == null || childrenIndexes.Length == 0)
+                if (childrenIndexes.IsEmpty())
                 {
                     variable = transform.GetComponentInChildren<T>();
                     return true;
@@ -175,11 +112,11 @@ namespace ASP.Extensions
         /// <returns>Returns true if the component is assigned, i.e. it was null</returns>
         public static bool GetComponentsInAllChildrenIfNull<T>(this Component component, ref T[] variables, params int[] childrenIndexes) where T : Component
         {
-            if (variables == null || variables.Length == 0)
+            if (variables.IsNullOrEmpty())
             {
                 Transform transform = component.transform;
 
-                if (childrenIndexes == null || childrenIndexes.Length == 0)
+                if (childrenIndexes.IsEmpty())
                 {
                     variables = transform.GetComponentsInChildren<T>();
                     return true;
@@ -206,11 +143,11 @@ namespace ASP.Extensions
         /// <returns>Returns true if the component is assigned, i.e. it was null</returns>
         public static bool GetComponentsInChildrenHeadersIfNull<T>(this Component component, ref T[] variables, params int[] childrenIndexes) where T : Component
         {
-            if (variables == null || variables.Length == 0)
+            if (variables.IsNullOrEmpty())
             {
                 Transform header = component.transform;
 
-                if (childrenIndexes == null || childrenIndexes.Length == 0)
+                if (childrenIndexes.IsEmpty())
                 {
                     variables = new T[header.childCount];
 
