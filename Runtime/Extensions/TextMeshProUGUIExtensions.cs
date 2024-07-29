@@ -75,7 +75,7 @@ namespace ASP.Extensions
         /// <param name="tableEntryReference">The key that the string is stored in StringTable</param>
         /// <param name="tableReference">The key that the string is stored in Table Collection</param>
         /// <returns>Return the localization string</returns>
-        public static void SetLocalizationString(this TextMeshProUGUI tmp, string tableEntryReference, string tableReference = "StringTable")
+        public static void SetLocalizationString(this TextMeshProUGUI tmp, string tableEntryReference, string tableReference)
         {
             if (string.IsNullOrEmpty(tableReference))
             {
@@ -109,7 +109,7 @@ namespace ASP.Extensions
         /// </summary>
         /// <param name="tableEntryReference">The key that the string is stored in StringTable</param>
         /// <param name="tableReference">The key that the string is stored in Table Collection</param>
-        public static void SetLocalizationFont(this TextMeshProUGUI tmp, string tableEntryReference, string tableReference = "AssetTable")
+        public static void SetLocalizationFont(this TextMeshProUGUI tmp, string tableEntryReference, string tableReference)
         {
             if (string.IsNullOrEmpty(tableReference))
             {
@@ -138,7 +138,7 @@ namespace ASP.Extensions
         /// </summary>
         /// <param name="tableEntryReference">The key that the string is stored in StringTable</param>
         /// <param name="tableReference">The key that the string is stored in Table Collection</param>
-        public static void SetLocalizationMaterial(this TextMeshProUGUI tmp, string tableEntryReference, string tableReference = "AssetTable")
+        public static void SetLocalizationMaterial(this TextMeshProUGUI tmp, string tableEntryReference, string tableReference)
         {
             if (string.IsNullOrEmpty(tableReference))
             {
