@@ -1,8 +1,7 @@
 using System.Linq;
-using UnityEngine;
 
 namespace ASP.Extensions
-{ 
+{
     public static class GenericExtensions
     {
         /// <summary>
@@ -39,16 +38,6 @@ namespace ASP.Extensions
 
             globalVariable = parameter;
             return true;
-        }
-        /// <summary>
-        /// Checks if the array is empty
-        /// </summary>
-        /// <typeparam name="T">Generic Type (where T : Component)</typeparam>
-        /// <param name="values">Generic Type Array</param>
-        /// <returns>true if array components is null or empty</returns>
-        public static bool IsEmpty<T>(this T[] values) where T : struct
-        {
-            return values.Length == 0;
         }
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using UnityEngine;
 
@@ -54,7 +53,7 @@ namespace ASP.Extensions
             {
                 Transform transform = component.transform;
 
-                if (childrenIndexes.IsEmpty())
+                if (childrenIndexes.IsNullOrEmpty())
                 {
                     variable = transform.GetComponent<T>();
                     return true;
@@ -85,7 +84,7 @@ namespace ASP.Extensions
             {
                 Transform transform = component.transform;
 
-                if (childrenIndexes.IsEmpty())
+                if (childrenIndexes.IsNullOrEmpty())
                 {
                     variable = transform.GetComponentInChildren<T>();
                     return true;
@@ -116,7 +115,7 @@ namespace ASP.Extensions
             {
                 Transform transform = component.transform;
 
-                if (childrenIndexes.IsEmpty())
+                if (childrenIndexes.IsNullOrEmpty())
                 {
                     variables = transform.GetComponentsInChildren<T>();
                     return true;
@@ -147,7 +146,7 @@ namespace ASP.Extensions
             {
                 Transform header = component.transform;
 
-                if (childrenIndexes.IsEmpty())
+                if (childrenIndexes.IsNullOrEmpty())
                 {
                     variables = new T[header.childCount];
 
