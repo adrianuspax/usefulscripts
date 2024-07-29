@@ -22,7 +22,10 @@ namespace ASP.Extensions
         /// <returns>true if array components is null or empty</returns>
         public static bool IsNullOrEmpty(this Component[] components)
         {
-            return components.All(obj => obj == null);
+            if (components == null)
+                return false;
+            else
+                return components.All(obj => obj == null);
         }
         /// <summary>
         /// Compares elements of the same type and assigns the value of the parameter to the variable if the values are not equal.
@@ -53,7 +56,7 @@ namespace ASP.Extensions
             {
                 Transform transform = component.transform;
 
-                if (childrenIndexes.IsNullOrEmpty())
+                if (childrenIndexes.IsEmpty())
                 {
                     variable = transform.GetComponent<T>();
                     return true;
@@ -84,7 +87,7 @@ namespace ASP.Extensions
             {
                 Transform transform = component.transform;
 
-                if (childrenIndexes.IsNullOrEmpty())
+                if (childrenIndexes.IsEmpty())
                 {
                     variable = transform.GetComponentInChildren<T>();
                     return true;
@@ -115,7 +118,7 @@ namespace ASP.Extensions
             {
                 Transform transform = component.transform;
 
-                if (childrenIndexes.IsNullOrEmpty())
+                if (childrenIndexes.IsEmpty())
                 {
                     variables = transform.GetComponentsInChildren<T>();
                     return true;
@@ -146,7 +149,7 @@ namespace ASP.Extensions
             {
                 Transform header = component.transform;
 
-                if (childrenIndexes.IsNullOrEmpty())
+                if (childrenIndexes.IsEmpty())
                 {
                     variables = new T[header.childCount];
 
