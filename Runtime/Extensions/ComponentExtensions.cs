@@ -11,17 +11,17 @@ namespace ASP.Extensions
         /// </summary>
         /// <param name="component">component</param>
         /// <returns>true if the component is null</returns>
-        public static bool IsNull<T>(this T component) where T : Component
+        public static bool IsNull(this Component component)
         {
             return component == null;
         }
         /// <summary>
         /// Checks if all the elements in the array are null or if the array is empty
         /// </summary>
-        /// <typeparam name="T">Generic Type (where T : Component)</typeparam>
+        /// <typeparam name="T">Generic Type</typeparam>
         /// <param name="components">Generic Type Array</param>
         /// <returns>true if array components is null or empty</returns>
-        public static bool IsNullOrEmpty<T>(this T[] components) where T : Component
+        public static bool IsNullOrEmpty(this Component[] components)
         {
             return components.All(obj => obj == null);
         }
@@ -32,7 +32,7 @@ namespace ASP.Extensions
         /// <param name="parameter">The parameter that will be compared</param>
         /// <param name="globalVariable">The variable that will be compared and then assigned if the values are not equal.</param>
         /// <returns>"attributed" returns the value assigned to the variable and "wasAttributed" returns true if the assignment to the variable occurred.</returns>
-        public static bool ComparativeAssignment<T>(this T parameter, ref T globalVariable) where T : Component
+        public static bool ComparativeAssignment(this Component parameter, ref Component globalVariable)
         {
             if (parameter == globalVariable)
                 return false;

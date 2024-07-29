@@ -8,12 +8,7 @@ namespace ASP.Extensions
     {
         public static void SetAlpha(this Image image, float alpha)
         {
-            if (alpha < 0f || alpha > 1f)
-            {
-                Debug.LogWarning($"The value of {nameof(alpha)} must be between 0 and 1, but the assigned value was {alpha}!", default);
-                return;
-            }
-
+            alpha = Mathf.Clamp01(alpha);
             Color oldColor = image.color;
             image.color = new Color(oldColor.r, oldColor.g, oldColor.b, alpha);
         }
@@ -120,7 +115,7 @@ namespace ASP.Extensions
 
             GAK = new GradientAlphaKey[1]
             {
-            new(Mathf.Clamp01(alpha), 0.5f)
+                new(Mathf.Clamp01(alpha), 0.5f)
             };
 
             if (length == 1)
