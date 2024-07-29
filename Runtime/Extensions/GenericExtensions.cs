@@ -12,7 +12,7 @@ namespace ASP.Extensions
         /// <returns>true if the component is null</returns>
         public static bool IsNull<T>(this T generic)
         {
-            return generic == null;
+            return generic.Equals(null);
         }
         /// <summary>
         /// Checks if all the elements in the array are null or if the array is empty
@@ -22,7 +22,7 @@ namespace ASP.Extensions
         /// <returns>true if array components is null or empty</returns>
         public static bool IsNullOrEmpty<T>(this T[] components)
         {
-            return components.All(obj => obj == null);
+            return components.All(obj => obj.Equals(null));
         }
         /// <summary>
         /// Compares elements of the same type and assigns the value of the parameter to the variable if the values are not equal.
