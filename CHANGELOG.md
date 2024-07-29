@@ -11,3 +11,4 @@
 2.0.2 HotFix - Deleted .IsEmpty().
 2.1.0 HotFix - IsNull<T>().
 2.2.0 HotFix - Generics and Components Assignments.
+2.3.0 HotFix - Generics and Components Assignments.

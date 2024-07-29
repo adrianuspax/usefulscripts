@@ -2,7 +2,7 @@
     "name": "com.adrianuspax.usefulscripts",
     "displayName": "Useful Scripts",
     "description": "Useful scripts that can be used in Unity projects and that make it easier to manipulate components etc.",
-    "version": "2.2.0",
+    "version": "2.3.0",
     "unity": "2017.1",
     "license": "MIT",
     "repository": {

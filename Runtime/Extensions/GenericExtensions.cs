@@ -35,9 +35,9 @@ namespace ASP.Extensions
         /// <param name="parameter">The parameter that will be compared</param>
         /// <param name="globalVariable">The variable that will be compared and then assigned if the values are not equal.</param>
         /// <returns>"attributed" returns the value assigned to the variable and "wasAttributed" returns true if the assignment to the variable occurred.</returns>
-        public static bool ComparativeAssignment<T>(this T parameter, ref T globalVariable) where T : Object
+        public static bool ComparativeAssignment<T>(this T parameter, ref T globalVariable)
         {
-            if (parameter == globalVariable)
+            if (parameter.Equals(globalVariable))
                 return false;
 
             globalVariable = parameter;
