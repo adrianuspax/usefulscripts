@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using UnityEngine;
 
 namespace ASP.Extensions
@@ -111,6 +110,27 @@ namespace ASP.Extensions
 
             globalVariable = parameter;
             return true;
+        }
+        /// <summary>
+        /// Truncates the float value to the desired number of decimal places
+        /// </summary>
+        /// <param name="float">floater</param>
+        /// <param name="digits">Number of digits after the decimal point, so the value must be positive</param>
+        /// <returns>Round, Floor, Ceil or (int)float</returns>
+        public static (float Round, float Floor, float Ceil, float Integer) Truncation(this float @float, int digits)
+        {
+            @float = Mathf.Abs(@float);
+            float a, b;
+
+            b = Mathf.Pow(10f, digits);
+            a = @float * b;
+
+            return (_round(), _floor(), _ceil(), _integer());
+
+            float _round() => (float)Math.Round(@float, digits);
+            float _floor() => Mathf.Floor(a) / b;
+            float _ceil() => Mathf.Ceil(a) / b;
+            float _integer() => (int)a / b;
         }
     }
 }

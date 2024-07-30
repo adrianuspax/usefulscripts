@@ -13,3 +13,4 @@
 2.2.0 HotFix - Generics and Components Assignments.
 2.3.0 HotFix - Generics and Components Assignments.
 2.3.1 Deleted TableReference/StringTable Parameter.
+2.3.2 Created Truncation to Primitives Extensions.
