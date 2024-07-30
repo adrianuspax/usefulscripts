@@ -309,5 +309,9 @@ namespace ASP
                 return new(s.name);
             }
         }
+        /// <summary>
+        ///  Removes all keys and values from the preferences. Use with caution.
+        /// </summary>
+        public static void DeleteAll() =>  UnityEngine.PlayerPrefs.DeleteAll();
     }
 }
