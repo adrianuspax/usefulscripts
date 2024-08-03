@@ -15,3 +15,4 @@
 2.3.1 Deleted TableReference/StringTable Parameter.
 2.3.2 Created Truncation to Primitives Extensions.
 2.3.3 Add PlayerPrefs.DeleteAll().
+3.0.0 Removed Localization Scripts Dependences - Use Repository -> https://github.com/adrianuspax/TMProExtensions_Localization.git
