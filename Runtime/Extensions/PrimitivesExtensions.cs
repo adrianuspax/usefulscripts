@@ -132,5 +132,14 @@ namespace ASP.Extensions
             float _ceil() => Mathf.Ceil(a) / b;
             float _integer() => (int)a / b;
         }
+        /// <summary>
+        /// Checks if the string is null or empty
+        /// </summary>
+        /// <param name="string">string</param>
+        /// <returns>Is the string null or empty?</returns>
+        public static bool IsNullOrEmpty(this string @string)
+        {
+            return string.IsNullOrEmpty(@string);
+        } 
     }
 }
