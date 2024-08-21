@@ -30,4 +30,5 @@ public static class Header
     public const string vectors = "..Vectors..";
     public const string linesRenderer = "..Lines Renderer..";
     public const string prefabs = "..Prefabricated..";
+    public const string strings = "..Strings..";
 }

@@ -18,3 +18,4 @@
 3.0.0 Removed Localization Scripts Dependences - Use Repository -> https://github.com/adrianuspax/TMProExtensions_Localization.git
 3.0.1 Add ColorExtensions.cs
 3.0.2 Add IsNullOrEmpty() to strings
+3.0.3 Add strings into Header class
