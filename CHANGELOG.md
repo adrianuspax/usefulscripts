@@ -19,3 +19,4 @@
 3.0.1 Add ColorExtensions.cs
 3.0.2 Add IsNullOrEmpty() to strings
 3.0.3 Add strings into Header class
+3.0.4 Add LineRendererExtensions.cs
