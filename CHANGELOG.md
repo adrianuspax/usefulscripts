@@ -20,3 +20,4 @@
 3.0.2 Add IsNullOrEmpty() to strings
 3.0.3 Add strings into Header class
 3.0.4 Add LineRendererExtensions.cs
+3.1.0 LineRendererExtensions.cs improvement

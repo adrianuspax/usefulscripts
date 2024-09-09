@@ -10,34 +10,92 @@ namespace ASP.Extensions
         private static readonly MaterialPropertyBlock _materialPropertyBlock = new();
         private const string TEXTURE = "_MainTex";
         private const string TEXTURE_ST = "_MainTex_ST";
-
-        public static void SetTexture(this LineRenderer lineRenderer, Texture texture, int materialIndex = 0)
+        /// <summary>
+        /// Set texture in line renderer
+        /// </summary>
+        /// <param name="lineRenderer">line renderer</param>
+        /// <param name="texture">texture to line renderer (use sprite.texture)</param>
+        /// <param name="materialIndex">Indexes of the materials to be changed</param>
+        public static void SetTexture(this LineRenderer lineRenderer, Texture texture, params int[] materialIndex)
         {
-            if (lineRenderer.materials[materialIndex].HasProperty(TEXTURE))
+            if (materialIndex == default)
             {
-                lineRenderer.GetPropertyBlock(_materialPropertyBlock, materialIndex);
-                _materialPropertyBlock.SetTexture(TEXTURE, texture);
-                lineRenderer.SetPropertyBlock(_materialPropertyBlock, materialIndex);
+                _set(0);
+                return;
+            }
+
+            foreach (int index in materialIndex)
+            {
+                _set(index);
+            }
+
+            void _set(int index)
+            {
+                if (lineRenderer.materials[index].HasProperty(TEXTURE))
+                {
+                    lineRenderer.GetPropertyBlock(_materialPropertyBlock, index);
+                    _materialPropertyBlock.SetTexture(TEXTURE, texture);
+                    lineRenderer.SetPropertyBlock(_materialPropertyBlock, index);
+                }
             }
         }
-
-        public static void SetOffset(this LineRenderer lineRenderer, Vector2 offset, int materialIndex = 0)
+        /// <summary>
+        /// Set offset in line renderer
+        /// </summary>
+        /// <param name="lineRenderer">Line renderer</param>
+        /// <param name="offset">Vector2 to change offset</param>
+        /// <param name="materialIndex">Indexes of the materials to be changed</param>
+        public static void SetOffset(this LineRenderer lineRenderer, Vector2 offset, params int[] materialIndex)
         {
-            if (lineRenderer.materials[materialIndex].HasProperty(TEXTURE_ST))
+            if (materialIndex == default)
             {
-                Vector4 value = new(1f, 1f, offset.x, offset.y);
-                lineRenderer.GetPropertyBlock(_materialPropertyBlock, materialIndex);
-                _materialPropertyBlock.SetVector(TEXTURE_ST, value);
-                lineRenderer.SetPropertyBlock(_materialPropertyBlock, materialIndex);
+                _set(0);
+                return;
+            }
+
+            foreach (int index in materialIndex)
+            {
+                _set(index);
+            }
+
+            void _set(int index)
+            {
+                if (lineRenderer.materials[index].HasProperty(TEXTURE_ST))
+                {
+                    Vector4 value = new(1f, 1f, offset.x, offset.y);
+                    lineRenderer.GetPropertyBlock(_materialPropertyBlock, index);
+                    _materialPropertyBlock.SetVector(TEXTURE_ST, value);
+                    lineRenderer.SetPropertyBlock(_materialPropertyBlock, index);
+                }
             }
         }
-
-        public static void StartDynamicOffset(this LineRenderer lineRenderer, Vector2 speed, MonoBehaviour monoBehaviour, int materialIndex = 0)
+        /// <summary>
+        /// Set Animation Offset
+        /// </summary>
+        /// <param name="lineRenderer">Line renderer</param>
+        /// <param name="speed">speed of animation in axis</param>
+        /// <param name="monoBehaviour">MonoBehaviour to coroutine (use this)</param>
+        /// <param name="materialIndex">Indexes of the materials to be changed</param>
+        public static void StartDynamicOffset(this LineRenderer lineRenderer, Vector2 speed, MonoBehaviour monoBehaviour, params int[] materialIndex)
         {
-            if (lineRenderer.materials[materialIndex].HasProperty(TEXTURE_ST))
+            if (materialIndex == default)
             {
-                _monoBehaviour = monoBehaviour;
-                _coroutine ??= monoBehaviour.StartCoroutine(_run());
+                _set(0);
+                return;
+            }
+
+            foreach (int index in materialIndex)
+            {
+                _set(index);
+            }
+
+            void _set(int index)
+            {
+                if (lineRenderer.materials[index].HasProperty(TEXTURE_ST))
+                {
+                    _monoBehaviour = monoBehaviour;
+                    _coroutine ??= monoBehaviour.StartCoroutine(_run());
+                }
             }
 
             IEnumerator _run()
@@ -54,15 +112,33 @@ namespace ASP.Extensions
                 _coroutine = null;
             }
         }
-
-        public static void StopDynamicOffset(this LineRenderer lineRenderer, int materialIndex = 0)
+        /// <summary>
+        /// Stop animation Line Renderer Offset
+        /// </summary>
+        /// <param name="lineRenderer">Line Renderer</param>
+        /// <param name="materialIndex">Indexes of the materials to be changed</param>
+        public static void StopDynamicOffset(this LineRenderer lineRenderer, params int[] materialIndex)
         {
-            if (_monoBehaviour == null || _coroutine == null)
+            if (materialIndex == default)
+            {
+                _set(0);
                 return;
+            }
 
-            lineRenderer.SetOffset(Vector2.zero, materialIndex);
-            _monoBehaviour.StopCoroutine(_coroutine);
-            _monoBehaviour = null;
+            foreach (int index in materialIndex)
+            {
+                _set(index);
+            }
+
+            void _set(int index)
+            {
+                if (_monoBehaviour == null || _coroutine == null)
+                    return;
+
+                lineRenderer.SetOffset(Vector2.zero, index);
+                _monoBehaviour.StopCoroutine(_coroutine);
+                _monoBehaviour = null;
+            }
         }
     }
 }
