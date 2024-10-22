@@ -21,3 +21,4 @@
 3.0.3 Add strings into Header class
 3.0.4 Add LineRendererExtensions.cs
 3.1.0 LineRendererExtensions.cs improvement
+3.1.1 Add AsyncAssignment
