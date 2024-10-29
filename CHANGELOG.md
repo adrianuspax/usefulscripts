@@ -22,3 +22,4 @@
 3.0.4 Add LineRendererExtensions.cs
 3.1.0 LineRendererExtensions.cs improvement
 3.1.1 Add AsyncAssignment
+4.0.0 AsyncAssignment Adjustments
