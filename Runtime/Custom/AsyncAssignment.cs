@@ -50,15 +50,19 @@ namespace ASP.Custom
                 do
                 {
                     isNull = button == null;
+
+                    if (!isNull)
+                    {
+                        button.onClick.AddListener(call);
+                        yield break;
+                    }
+
                     yield return new WaitForEndOfFrame();
                     times++;
                 }
                 while (isNull || times <= attempts);
 
-                if (!isNull)
-                    button.onClick.AddListener(call);
-                else
-                    Debug.LogError($"The object cannot be assigned after {times} unsuccessful attempts!");
+                Debug.LogError($"The call cannot be Add in Listener after {times} unsuccessful attempts!");
             }
         }
     }
