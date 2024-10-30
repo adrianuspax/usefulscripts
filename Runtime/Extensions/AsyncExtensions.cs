@@ -3,16 +3,15 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace ASP.Custom
+namespace ASP.Extensions
 {
-    public static class Async
+    public static class AsyncExtensions
     {
-        public static T Assignment<T>(T @object, MonoBehaviour monoBehaviour, int attempts = 10)
+        public static void AsyncAssignment<T>(this Component component, T @object, MonoBehaviour monoBehaviour, int attempts = 10) where T : Component
         {
             T result = default;
-            IEnumerator routine = _routine((action) => result = action);
+            IEnumerator routine = _routine((action) => component = action);
             monoBehaviour.StartCoroutine(routine);
-            return result;
 
             IEnumerator _routine(UnityAction<T> action)
             {
@@ -31,36 +30,37 @@ namespace ASP.Custom
                     yield return new WaitForEndOfFrame();
                     times++;
                 }
-                while (result == null && times <= attempts);
+                while (result == null && times < attempts);
 
                 Debug.LogError($"The object cannot be assigned after {times} unsuccessful attempts!");
                 action?.Invoke(default);
             }
         }
 
-        public static void AddListener(Button button, UnityAction call, MonoBehaviour monoBheviour, int attempts = 10)
+        public static void AsyncAddListener(this Button button, UnityAction call, MonoBehaviour monoBheviour, int attempts = 10)
         {
-            monoBheviour.StartCoroutine(_routine());
+            Button result = default;
+            IEnumerator routine = _routine(() => button.onClick.AddListener(call));
+            monoBheviour.StartCoroutine(routine);
 
-            IEnumerator _routine()
+            IEnumerator _routine(UnityAction action)
             {
                 int times = 0;
-                bool isNull;
 
                 do
                 {
-                    isNull = button == null;
+                    result = button;
 
-                    if (!isNull)
+                    if (result != null)
                     {
-                        button.onClick.AddListener(call);
+                        action?.Invoke();
                         yield break;
                     }
 
                     yield return new WaitForEndOfFrame();
                     times++;
                 }
-                while (isNull || times <= attempts);
+                while (result == null && times < attempts);
 
                 Debug.LogError($"The call cannot be Add in Listener after {times} unsuccessful attempts!");
             }
