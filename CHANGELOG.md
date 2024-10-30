@@ -25,3 +25,4 @@
 4.0.0 AsyncAssignment Adjustments (AsyncAssignment => Async)
 4.0.1 Async Adjustments
 5.0.0 AsyncAssignment to AsyncExtensions and HotFix
+5.1.0 Async Adjustments
