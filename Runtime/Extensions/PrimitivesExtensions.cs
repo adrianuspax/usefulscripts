@@ -140,6 +140,15 @@ namespace ASP.Extensions
         public static bool IsNullOrEmpty(this string @string)
         {
             return string.IsNullOrEmpty(@string);
-        } 
+        }
+        /// <summary>
+        /// Return <see cref="Animator.StringToHash(string)"/>.
+        /// </summary>
+        /// <param name="string"></param>
+        /// <returns>Hash Code from <see cref="Animator"/></returns>
+        public static int GetAnimatorHash(this string @string)
+        {
+            return Animator.StringToHash(@string);
+        }
     }
 }

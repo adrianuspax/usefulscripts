@@ -26,3 +26,4 @@
 4.0.1 Async Adjustments
 5.0.0 AsyncAssignment to AsyncExtensions and HotFix
 5.1.0 Async Adjustments
+6.0.0 Adjustments into AnimatorExtensions and Add Function into Primitives Extensions
